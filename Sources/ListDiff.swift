@@ -90,6 +90,30 @@ public enum List {
         public func newIndexFor(identifier: AnyHashable) -> Int? {
             return self.newMap[identifier]
         }
+        public init() {
+            self.inserts = IndexSet()
+            self.updates = IndexSet()
+            self.deletes = IndexSet()
+            self.moves = []
+            self.oldMap = Dictionary<AnyHashable, Int>()
+            self.newMap = Dictionary<AnyHashable, Int>()
+        }
+        init(inserts: IndexSet) {
+            self.inserts = inserts
+            self.updates = IndexSet()
+            self.deletes = IndexSet()
+            self.moves = []
+            self.oldMap = Dictionary<AnyHashable, Int>()
+            self.newMap = Dictionary<AnyHashable, Int>()
+        }
+        init(inserts: IndexSet, updates: IndexSet, deletes: IndexSet, moves: Array<List.MoveIndex>, oldMap: Dictionary<AnyHashable, Int>, newMap: Dictionary<AnyHashable, Int>) {
+            self.inserts = inserts
+            self.updates = updates
+            self.deletes = deletes
+            self.moves = moves
+            self.oldMap = oldMap
+            self.newMap = newMap
+        }
     }
     
     public static func diffing<T: Diffable & Equatable>(oldArray:Array<T>, newArray:Array<T>) -> Result {
